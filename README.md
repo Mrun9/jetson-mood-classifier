@@ -10,6 +10,7 @@ Long inputs are truncated to 512 tokens. Confidence is a model score, not a guar
 
 **New in v2:** microphone input, live English transcription, and spoken predictions.
 Sentiment describes the recognized words, not emotion in your tone of voice.
+Optional conversation mode now generates short replies and can speak them aloud.
 
 ## Architecture
 
@@ -104,6 +105,30 @@ python3 app.py --voice --mic 1
 Replace `1` with an input device number from the list. Speaker output uses the
 system default. Test it with `espeak-ng "Speaker test"`.
 Typed mode is still available with `python3 app.py`.
+
+## Talk with the assistant
+
+```bash
+python3 app.py --voice --chat
+```
+
+Your speech is transcribed by Vosk. DistilBERT prints sentiment and confidence,
+then [SmolLM2-360M-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct)
+generates a short reply. The reply appears as `Assistant:` in the terminal and
+eSpeak NG reads it aloud. Wait for `Listening...` before your next turn.
+
+**Flow:** Microphone → Vosk → sentiment in terminal + SmolLM2 reply → eSpeak NG → speaker.
+
+This adds a 360-million-parameter model, downloaded on the first `--chat` run.
+It loads once, uses CUDA when available (CPU otherwise), and runs locally.
+Replies are limited to 80 new tokens; the model sees up to 1,024 input tokens
+and keeps only two recent exchanges in memory. History disappears when you exit.
+This small model can give inaccurate or repetitive answers, and replies take
+time to generate. Jetson speed and memory usage depend on the device and setup.
+
+For typed conversation, use `python3 app.py --chat`. For spoken sentiment only,
+keep using `python3 app.py --voice`. No extra Python dependencies are needed.
+Say `exit` or `quit` alone, or press Ctrl+C, to stop.
 
 ## Example output
 
