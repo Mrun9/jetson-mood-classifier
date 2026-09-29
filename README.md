@@ -8,11 +8,16 @@ No training is needed. CUDA is used when PyTorch detects it; otherwise, the app 
 The model downloads on the first run (internet required). Inference runs locally.
 Long inputs are truncated to 512 tokens. Confidence is a model score, not a guarantee.
 
+## Architecture
+
+<img src="architecture.png" alt="Text input flows through DistilBERT to a sentiment and confidence prediction. PyTorch uses CUDA when available, otherwise CPU. Inference runs locally on Jetson Orin Nano." width="800">
+
 ## Project structure
 
 ```text
 jetson-mood-classifier/
 ├── app.py
+├── architecture.png
 ├── requirements.txt
 ├── README.md
 └── .gitignore
