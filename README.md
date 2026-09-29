@@ -15,9 +15,16 @@ Sentiment describes the recognized words, not emotion in your tone of voice.
 
 Voice mode: **Microphone → Vosk transcription → DistilBERT → Terminal + eSpeak NG speaker output**.
 Vosk and speech output run on CPU; DistilBERT uses CUDA when available.
-The original text path is shown below:
+
+### Version 1 — Text input
 
 <img src="architecture.png" alt="Text input flows through DistilBERT to a sentiment and confidence prediction. PyTorch uses CUDA when available, otherwise CPU. Inference runs locally on Jetson Orin Nano." width="800">
+
+### Version 2 — Voice input and spoken output
+
+<img src="architecture-v2.png" alt="Microphone audio flows through Vosk transcription and DistilBERT sentiment analysis to terminal results and eSpeak NG speaker output. Keyboard input can also feed DistilBERT. All processing runs locally on Jetson Orin Nano." width="800">
+
+Spoken output applies to voice mode; typed mode prints results in the terminal.
 
 ## Project structure
 
@@ -25,6 +32,7 @@ The original text path is shown below:
 jetson-mood-classifier/
 ├── app.py
 ├── architecture.png
+├── architecture-v2.png
 ├── requirements.txt
 ├── README.md
 └── .gitignore
